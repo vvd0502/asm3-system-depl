@@ -1,0 +1,70 @@
+{
+    "Resources": {
+        "Jenkins": {
+            "Type": "AWS::EC2::Instance",
+            "Properties": {
+                "ImageId": "ami-00b8917ae86a424c9",
+                "InstanceType": "t2.micro",
+                "KeyName": "test-server-key",
+                "SecurityGroupIds": [
+                    "sg-0b8bbd7fd8af2bd4a"
+                ],
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "Jenkins-Server-A3"
+                    }
+                ],
+                "UserData": {
+                    "Fn::Base64": {
+                        "Fn::Join": [
+                            "",
+                            [
+                                "#!/bin/bash\n",
+                                "yum install git -y\n",
+                                "cd ~\n",
+                                "git clone https://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@github.com/pigergast/Devops_A3.git\n",
+                                "cd Devops_A3/CloudFormation/BashSetupScripts\n",
+                                "chmod +x jenkinsInstall.sh\n",
+                                "./jenkinsInstall.sh\n"
+                              ]
+                        ]
+                    }
+                }
+            }
+        },
+        "Ansible": {
+            "Type": "AWS::EC2::Instance",
+            "Properties": {
+                "ImageId": "ami-00b8917ae86a424c9",
+                "InstanceType": "t2.micro",
+                "KeyName": "test-server-key",
+                "SecurityGroupIds": [
+                    "sg-0dd2fe0c05a224fda"
+                ],
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "Ansible-Server-A3"
+                    }
+                ],
+                "UserData": {
+                    "Fn::Base64": {
+                        "Fn::Join": [
+                            "",
+                            [
+                                "#!/bin/bash\n",
+                                "yum install git -y\n",
+                                "cd ~\n",
+                                "git clone https://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@github.com/pigergast/Devops_A3.git\n",
+                                "cd Devops_A3/CloudFormation/BashSetupScripts\n",
+                                "chmod +x ansibleInstall.sh\n",
+                                "./ansibleInstall.sh\n"
+                              ]
+                        ]
+                    }
+                }
+            }
+        }
+    }
+}
