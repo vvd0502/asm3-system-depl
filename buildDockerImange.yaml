@@ -1,0 +1,12 @@
+---
+- hosts: ansibleserver
+  become: true
+  tasks:
+    - name: check docker compose
+      stat:
+        path: /usr/local/bin/docker-compose
+      register: dockComp
+
+    - name: install docker compose if not installed
+      script: /home/ansibleadmin/installDockerCompose.sh
+      when: not dockComp.stat.exists
