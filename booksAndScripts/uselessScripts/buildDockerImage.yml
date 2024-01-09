@@ -10,3 +10,15 @@
     - name: install docker compose if not installed
       script: /home/ansibleadmin/installDockerCompose.sh
       when: not dockComp.stat.exists
+
+    - name: install PyYaml using pip3
+      ansible.builtin.pip:
+        name: pyyaml
+        executable: pip3
+        state: present
+
+    - name: ensure docker sdk for python is installed
+      ansible.builtin.pip:
+        name: docker
+        executable: pip3
+        state: present

@@ -1,0 +1,53 @@
+---
+- hosts: all
+  become: true
+
+  tasks:
+    - name: check docker install
+      yum:
+        name: docker
+        state: present
+
+    - name: Check Docker service status
+      ansible.builtin.service:
+        name: docker
+        state: started
+- hosts: ansibleserver
+  become: true
+
+  tasks:
+    - name: Delete images on control node
+      shell: if [ $(docker images -qa) ]; then docker rmi $(docker images -qa) -f; fi
+
+    - name: move webapp dockerfile
+      shell: mv -f /home/ansibleadmin/test-webapp /home/ansibleadmin/webapp/Dockerfile
+
+
+    - name: build and push docker test webap image to docker hub
+      community.docker.docker_image:
+        name: rmit-store-test
+        build:
+          path: /home/ansibleadmin/webapp
+          pull: yes
+        state: present
+        tag: latest
+        force_tag: yes
+        repository: vvd0502/rmit-store-test:latest
+        push: yes
+        source: build
+
+    - name: Copy db dockerfile
+      shell: mv -f /home/ansibleadmin/test-db /home/ansibleadmin/webapp/Dockerfile
+
+    - name: build and push docker test db image to docker hub
+      community.docker.docker_image:
+        name: rmit-store-test-db
+        build:
+          path: /home/ansibleadmin/webapp
+          pull: yes
+        state: present
+        tag: latest
+        force_tag: yes
+        repository: vvd0502/rmit-store-test-db:latest
+        push: yes
+        source: build

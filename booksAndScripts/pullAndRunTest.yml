@@ -1,0 +1,34 @@
+---
+- hosts: testserver
+  become: true
+
+  tasks:
+    - name: pull and build run docker container on webapp server
+      community.docker.docker_container:
+        name: rmit-store-test
+        image: vvd0502/rmit-store-test:latest
+        state: started
+        auto_remove: true
+        recreate: yes
+        detach: true
+        cleanup: true
+        pull: yes
+        ports:
+          - "8081:80" 
+
+- hosts: dbserver
+  become: true
+
+  tasks:
+    - name: pull and build run docker container on test db server
+      community.docker.docker_container:
+        name: rmit-store-test-db
+        image: vvd0502/rmit-store-test-db:latest
+        state: started
+        auto_remove: true
+        cleanup: true
+        recreate: yes
+        detach: true
+        pull: yes
+        ports:
+          - "8081:3306" 
