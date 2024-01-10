@@ -3,15 +3,17 @@
   become: true
 
   tasks:
+    - name: cleanup old image
+      shell: docker stop rmit-store-test && docker rm rmit-store-test && docker rmi -f vvd0502/rmit-store-test
+      ignore_error: true
+      
     - name: pull and build run docker container on webapp server
       community.docker.docker_container:
         name: rmit-store-test
         image: vvd0502/rmit-store-test
         state: started
-        auto_remove: true
         recreate: yes
         detach: true
-        cleanup: true
         pull: yes
         ports:
           - "8081:80" 
@@ -20,13 +22,15 @@
   become: true
 
   tasks:
+    - name: cleanup old image
+      shell: docker stop rmit-store-test-db && docker rm rmit-store-test-db && docker rmi -f vvd0502/rmit-store-test-db
+      ignore_error: true
+  
     - name: pull and build run docker container on test db server
       community.docker.docker_container:
         name: rmit-store-test-db
         image: vvd0502/rmit-store-test-db
         state: started
-        auto_remove: true
-        cleanup: true
         recreate: yes
         detach: true
         pull: yes
