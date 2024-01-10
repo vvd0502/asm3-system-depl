@@ -17,7 +17,7 @@
 
   tasks:
     - name: Delete images on control node
-      shell: if [[ $(docker images -qa) ]]; then docker rmi -f $(docker images -qa); fi
+      shell: if [ $(docker images -qa) ]; then docker rmi -f $(docker images -qa); fi
 
     - name: move webapp dockerfile
       shell: mv -f /home/ansibleadmin/test-webapp /home/ansibleadmin/webapp/Dockerfile
@@ -28,9 +28,6 @@
         name: rmit-store-test
         build:
           path: /home/ansibleadmin/webapp
-          pull: true
-        tag: latest
-        force_tag: true
         state: present
         repository: vvd0502/rmit-store-test
         push: yes
@@ -44,10 +41,7 @@
         name: rmit-store-test-db
         build:
           path: /home/ansibleadmin/webapp
-          pull: true
         state: present
-        tag: latest
-        force_tag: true
         repository: vvd0502/rmit-store-test-db
         push: yes
         source: build

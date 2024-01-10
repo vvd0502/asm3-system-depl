@@ -6,7 +6,7 @@
     - name: pull and build run docker container on webapp server
       community.docker.docker_container:
         name: rmit-store-test
-        image: vvd0502/rmit-store-test:latest
+        image: vvd0502/rmit-store-test
         state: started
         auto_remove: true
         recreate: yes
@@ -23,7 +23,7 @@
     - name: pull and build run docker container on test db server
       community.docker.docker_container:
         name: rmit-store-test-db
-        image: vvd0502/rmit-store-test-db:latest
+        image: vvd0502/rmit-store-test-db
         state: started
         auto_remove: true
         cleanup: true
