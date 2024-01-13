@@ -5,7 +5,7 @@
   tasks:
     - name: cleanup old image
       shell: docker stop rmit-store-test && docker rm rmit-store-test && docker rmi -f vvd0502/rmit-store-test
-      ignore_error: true
+      ignore_errors: true
       
     - name: pull and build run docker container on webapp server
       community.docker.docker_container:
@@ -24,8 +24,9 @@
   tasks:
     - name: cleanup old image
       shell: docker stop rmit-store-test-db && docker rm rmit-store-test-db && docker rmi -f vvd0502/rmit-store-test-db
-      ignore_error: true
-  
+      ignore_errors: true
+
+
     - name: pull and build run docker container on test db server
       community.docker.docker_container:
         name: rmit-store-test-db

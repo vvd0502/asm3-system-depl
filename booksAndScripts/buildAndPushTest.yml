@@ -18,6 +18,8 @@
   tasks:
     - name: Delete images on control node
       shell: if [[ $(docker images -qa) ]]; then docker rmi -f $(docker images -qa); fi
+      ignore_errors: true
+
 
     - name: move webapp dockerfile
       shell: mv -f /home/ansibleadmin/test-webapp /home/ansibleadmin/webapp/Dockerfile
